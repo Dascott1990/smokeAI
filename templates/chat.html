@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with AI</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById("message").value;
+            const responseContainer = document.getElementById("response");
+            responseContainer.innerHTML = "<p>Loading...</p>"; // Temporary loading state
+            try {
+                const response = await fetch("/ask", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message })
+                });
+                const data = await response.json();
+                responseContainer.innerHTML = `<p>${data.response || data.error}</p>`;
+            } catch (error) {
+                responseContainer.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Chat with AI</h1>
+        <p class="subtitle">Ask anything related to smoking habits, and let AI guide you.</p>
+        <div class="chat-box">
+            <textarea id="message" placeholder="Type your message here..." rows="5"></textarea>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        <div id="response" class="response-box">
+            <p>Your AI's response will appear here...</p>
+        </div>
+        <a class="back-link" href="/">Go Back</a>
+    </div>
+</body>
+</html>

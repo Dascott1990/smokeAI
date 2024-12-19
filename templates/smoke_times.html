@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Health Statistics</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>World Health Statistics</h1>
+        <p class="subtitle">Stay informed with the latest health updates!</p>
+
+        <!-- Section: Health News Display -->
+        <div class="api-section">
+            <h2>Current Health News</h2>
+            <div id="health-news" class="health-news">
+                <p>Loading health news...</p>
+            </div>
+        </div>
+
+        <a class="back-link" href="/">Go Back</a>
+    </div>
+
+    <script>
+        const healthNewsContainer = document.getElementById("health-news");
+
+        // Function to fetch and display health news
+        async function fetchHealthNews() {
+            try {
+                const response = await fetch('/api/health_news'); // Replace with the actual endpoint for health data
+                if (!response.ok) {
+                    throw new Error(`Error fetching health news: ${response.statusText}`);
+                }
+                const data = await response.json();
+
+                // Update the health news container with new data
+                healthNewsContainer.innerHTML = `
+                    <h3>${data.title}</h3>
+                    <p>${data.description}</p>
+                    <p><strong>Source:</strong> ${data.source}</p>
+                `;
+            } catch (error) {
+                healthNewsContainer.innerHTML = `<p class="error">Failed to load health news: ${error.message}</p>`;
+            }
+        }
+
+        // Initial fetch
+        fetchHealthNews();
+
+        // Update health news every 5 minutes (300,000 milliseconds)
+        setInterval(fetchHealthNews, 300000);
+    </script>
+</body>
+</html>
