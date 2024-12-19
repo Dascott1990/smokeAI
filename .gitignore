@@ -1,0 +1,24 @@
+# Ignore .env file
+.env
+
+# Python related
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+venv.bak/
+pip-log.txt
+
+# Logs
+*.log
+
+# MacOS specific files
+.DS_Store
+
+# Others
+*.swp
+*.swo
